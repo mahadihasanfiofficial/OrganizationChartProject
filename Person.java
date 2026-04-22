@@ -7,6 +7,10 @@ public class Person extends Unit {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void print() {
         for (int i = 0; i < level; i++) {
             System.out.print("  ");

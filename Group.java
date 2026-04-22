@@ -13,25 +13,20 @@ public class Group extends Unit {
         members = new ArrayList<>();
     }
 
-    // Add member (Person or Group)
     public void add(Unit u) {
         members.add(u);
     }
 
-    // OPTIONAL (useful later)
     public String getGroupName() {
         return groupName;
     }
 
-    // 🔥 IMPORTANT: Find group recursively
     public Group findGroup(String name) {
 
-        // Check current group
         if (this.groupName.equalsIgnoreCase(name)) {
             return this;
         }
 
-        // Search in children
         for (Unit u : members) {
             if (u instanceof Group) {
                 Group result = ((Group) u).findGroup(name);
@@ -44,7 +39,28 @@ public class Group extends Unit {
         return null;
     }
 
-    // Print organization structure
+    public boolean removePerson(String name) {
+
+        for (int i = 0; i < members.size(); i++) {
+
+            Unit u = members.get(i);
+
+            if (u instanceof Person) {
+                if (((Person) u).getName().equalsIgnoreCase(name)) {
+                    members.remove(i);
+                    return true;
+                }
+            }
+
+            if (u instanceof Group) {
+                boolean removed = ((Group) u).removePerson(name);
+                if (removed) return true;
+            }
+        }
+
+        return false;
+    }
+
     public void print() {
         for (int i = 0; i < level; i++) {
             System.out.print("  ");
