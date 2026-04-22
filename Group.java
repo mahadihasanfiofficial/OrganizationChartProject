@@ -13,10 +13,38 @@ public class Group extends Unit {
         members = new ArrayList<>();
     }
 
+    // Add member (Person or Group)
     public void add(Unit u) {
         members.add(u);
     }
 
+    // OPTIONAL (useful later)
+    public String getGroupName() {
+        return groupName;
+    }
+
+    // 🔥 IMPORTANT: Find group recursively
+    public Group findGroup(String name) {
+
+        // Check current group
+        if (this.groupName.equalsIgnoreCase(name)) {
+            return this;
+        }
+
+        // Search in children
+        for (Unit u : members) {
+            if (u instanceof Group) {
+                Group result = ((Group) u).findGroup(name);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // Print organization structure
     public void print() {
         for (int i = 0; i < level; i++) {
             System.out.print("  ");
